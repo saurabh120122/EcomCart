@@ -10,8 +10,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider> {/* <-- 1. AUTH PROVIDER (OUTER) */}
-        <CartProvider> {/* <-- 2. CART PROVIDER (INNER) */}
+      <AuthProvider> 
+        <CartProvider> 
           <App />
         </CartProvider>
       </AuthProvider>

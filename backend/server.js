@@ -21,18 +21,15 @@ app.use(express.json());
 // CORS middleware
 app.use(cors());
 
-// --- Mount routes ---
+
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/checkout', checkoutRoutes);
 app.use('/api/users', userRoutes);
-// --- Global Error Handler ---
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5001;
 const startServer = async () => {
-  // This try/catch is correct!
-  // It handles errors BEFORE the server is ready.
   try {
     // 1. Wait for DB
     await connectDB();

@@ -3,8 +3,6 @@ import asyncHandler from '../utils/asyncHandler.js';
 import ApiResponse from '../utils/ApiResponse.js';
 import ApiError from '../utils/ApiError.js';
 
-// (getProducts function is no longer here, it's in productController)
-
 /**
  * @desc    Get the logged-in user's cart
  * @route   GET /api/cart

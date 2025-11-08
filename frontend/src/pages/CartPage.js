@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext'; // <-- Import useAuth
+import { useAuth } from '../context/AuthContext'; 
 import { checkout } from '../api';
 import ReceiptModal from '../components/ReceiptModal';
 
@@ -10,21 +10,21 @@ const CartPage = () => {
   // Get the logged-in user's data
   const { user } = useAuth(); 
   
-  // We no longer need the formData state
+  
   const [receipt, setReceipt] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  // We no longer need handleInputChange
+  
 
   const handleCheckout = async (e) => {
     e.preventDefault();
-    // No more form validation needed
+    
     
     try {
       const receiptData = await checkout(cart.items, cart.total);
       setReceipt(receiptData);
       setShowModal(true);
-      fetchCart(); // Refetch the (now empty) cart
+      fetchCart(); 
     } catch (err) {
       console.error('Error during checkout:', err);
       alert('Checkout failed. Please try again.');
@@ -48,7 +48,7 @@ const CartPage = () => {
                   <h4>{item.name}</h4>
                   <p>Price: ${Number(item.price || 0).toFixed(2)}</p>
                   
-                  {/* === QUANTITY CONTROLS === */}
+                  {}
                   <div className="quantity-control">
                     <button onClick={() => updateQuantity(item, item.quantity - 1)}>
                       -
@@ -58,7 +58,7 @@ const CartPage = () => {
                       +
                     </button>
                   </div>
-                  {/* === END CONTROLS === */}
+                  {}
                 </div>
                 
                 <button onClick={() => updateQuantity(item, 0)} className="remove-btn">

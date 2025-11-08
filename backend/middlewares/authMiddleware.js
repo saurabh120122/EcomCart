@@ -12,11 +12,7 @@ export const protect = asyncHandler(async (req, res, next) => {
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     token = req.headers.authorization.split(' ')[1];
   }
-  // You could also check for the cookie:
-  // else if (req.cookies.jwt) {
-  //   token = req.cookies.jwt;
-  // }
-
+  
   if (!token) {
     throw new ApiError(401, 'Not authorized, no token');
   }
@@ -26,7 +22,6 @@ export const protect = asyncHandler(async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // 3. Get the user from the token's ID
-    // We attach the user to the request object
     req.user = await User.findById(decoded.userId).select('-password');
 
     if (!req.user) {

@@ -2,7 +2,7 @@ import express from 'express';
 import {
   getCart,
   upsertCartItem,
-} from '../controllers/cartController.js'; // <-- Note .js
+} from '../controllers/cartController.js'; 
 import { protect } from '../middlewares/authMiddleware.js';
 const router = express.Router();
 

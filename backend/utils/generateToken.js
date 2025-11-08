@@ -8,10 +8,10 @@ const generateToken = (res, userId) => {
   );
 
   // We are returning the token, but also setting it
-  // in a cookie for web use (optional but good practice)
+  // in a cookie for web use
   res.cookie('jwt', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV !== 'development', // Use secure cookies in production
+    secure: process.env.NODE_ENV !== 'development',
     sameSite: 'strict',
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });

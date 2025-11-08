@@ -1,13 +1,13 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import { useAuth } from './context/AuthContext'; // Import auth hook
+import { useAuth } from './context/AuthContext';
 
 // Pages
 import ProductPage from './pages/ProductPage';
 import CartPage from './pages/CartPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import ProtectedRoute from './components/ProtectedRoute'; // Import protector
+import ProtectedRoute from './components/ProtectedRoute'; 
 
 import './App.css';
 
@@ -42,7 +42,6 @@ function App() {
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/cart" element={<CartPage />} />
-            {/* Add any other protected routes here, e.g. /profile, /checkout */}
           </Route>
         </Routes>
       </div>

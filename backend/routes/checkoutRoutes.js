@@ -1,5 +1,5 @@
 import express from 'express';
-import { mockCheckout } from '../controllers/checkoutController.js'; // <-- Note .js
+import { mockCheckout } from '../controllers/checkoutController.js';
 import { protect } from '../middlewares/authMiddleware.js';
 const router = express.Router();
 

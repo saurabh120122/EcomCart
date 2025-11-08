@@ -26,8 +26,6 @@ const ProductPage = () => {
     try {
       await addToCart(product);
       alert('Item added to cart!');
-      // Optionally navigate to cart or show a more subtle notification
-      // navigate('/cart');
     } catch (err) {
       console.error('Error adding to cart:', err);
       alert('Failed to add item to cart.');

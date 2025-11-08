@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { api } from '../api'; // Import your main axios instance
+import { api } from '../api'; 
 
 const AuthContext = createContext();
 
@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   // Get initial state from localStorage
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
   const [token, setToken] = useState(localStorage.getItem('token') || null);
-  const [loading, setLoading] = useState(false); // For register/login
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   // Effect to set token in localStorage and axios headers
@@ -16,8 +16,6 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
-      // This is the CRITICAL part:
-      // Set the auth token on ALL future axios requests
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     } else {
       localStorage.removeItem('token');
@@ -46,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const { data } = await api.post('/users/register', { name, email, password }); // <-- 2. Send name
+      const { data } = await api.post('/users/register', { name, email, password }); 
       setUser(data.data);
       setToken(data.data.token);
       return true;

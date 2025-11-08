@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 
 const RegisterPage = () => {
-  const [name, setName] = useState(''); // <-- 1. Add name state
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { register, loading, error } = useAuth();
@@ -11,7 +11,7 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = await register(name, email, password); // <-- 2. Pass name
+    const success = await register(name, email, password); 
     if (success) {
       navigate('/');
     }
@@ -23,7 +23,6 @@ const RegisterPage = () => {
         <h2>Register</h2>
         {error && <p className="error-message">{error}</p>}
         
-        {/* --- 3. ADD NAME FIELD --- */}
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
@@ -34,7 +33,6 @@ const RegisterPage = () => {
             required
           />
         </div>
-        {/* --- END ADD --- */}
 
         <div className="form-group">
           <label htmlFor="email">Email</label>

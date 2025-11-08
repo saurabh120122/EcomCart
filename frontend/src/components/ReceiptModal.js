@@ -1,5 +1,5 @@
 import React from 'react';
-import './ReceiptModal.css'; // We'll create this CSS file
+import './ReceiptModal.css';
 
 const ReceiptModal = ({ receipt, onClose }) => {
   return (
