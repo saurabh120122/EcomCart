@@ -1,0 +1,289 @@
+/* Basic Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Navbar */
+.navbar {
+  background: #333;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+}
+
+.nav-links li {
+  margin-left: 1.5rem;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.nav-links a:hover {
+  color: #03A9F4;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1rem;
+  text-align: center;
+}
+
+.product-card img {
+  max-width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.product-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-card p {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.product-card button {
+  background: #03A9F4;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+.product-card button:hover {
+  background: #0288d1;
+}
+
+/* Added for "In Cart" button */
+.in-cart-btn {
+  background: #aaa;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: not-allowed;
+  font-size: 1rem;
+}
+
+/* Cart Page */
+.cart-page {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.cart-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding: 1rem 0;
+}
+
+.cart-item img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+
+.cart-item .item-details {
+  flex-grow: 1; /* This makes it take up the available space */
+}
+
+.remove-btn {
+  background: #E91E63;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 1rem; /* Added spacing */
+}
+
+/* Checkout Form */
+.checkout-form {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.checkout-btn {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  width: 100%;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.checkout-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cart-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- STYLES FOR THE QUANTITY BUTTONS --- */
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 120px;
+}
+
+.quantity-control button {
+  background: #f4f4f4;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.quantity-control button:hover {
+  background: #e0e0e0;
+}
+
+.quantity-control span {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* In the cart, make it a bit smaller */
+.cart-item .quantity-control {
+  margin: 0.5rem 0 0 0; /* Adds space above it */
+}
+
+.cart-item .quantity-control button {
+  padding: 0.3rem 0.6rem;
+  font-size: 1rem;
+}
+
+.cart-item .quantity-control span {
+  padding: 0 0.5rem;
+  font-size: 0.9rem;
+  min-width: 30px;
+  text-align: center;
+}
+
+/* --- MODAL STYLES --- */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #aaa;
+}
