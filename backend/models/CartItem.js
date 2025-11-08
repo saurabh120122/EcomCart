@@ -2,6 +2,11 @@ import mongoose from 'mongoose';
 
 const cartItemSchema = new mongoose.Schema({
   // We use the ID from the Fake Store API (which is a number)
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User', // Links this to the User model
+  },
   productId: { 
     type: Number, 
     required: true 

@@ -1,37 +1,56 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getCart, updateCartQuantity } from '../api'; // Check your api.js import
+import { getCart, updateCartQuantity as apiUpdateQuantity } from '../api';
+import { useAuth } from './AuthContext'; // <-- 1. IMPORT AUTH HOOK
 
-// 1. Create the context
 const CartContext = createContext();
 
-// 2. Create the provider component
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState({ items: [], total: 0 });
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth(); // <-- 2. GET THE USER
 
-  // Fetch initial cart on load
   const fetchCart = async () => {
+    // 3. ONLY FETCH IF THE USER IS LOGGED IN
+    if (!user) {
+      setLoading(false);
+      return;
+    }
     try {
       setLoading(true);
       const cartData = await getCart();
       setCart(cartData);
     } catch (err) {
       console.error('Error fetching cart:', err);
-      setCart({ items: [], total: 0 }); // Reset on error
+      // If we get a 401 error, it means our token is bad
+      if (err.response?.status === 401) {
+        // We'd ideally call logout() here, but that causes complexity.
+        // For now, just clear the cart.
+        setCart({ items: [], total: 0 });
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  // 4. RE-FETCH CART WHEN USER CHANGES (LOGIN)
   useEffect(() => {
-    fetchCart();
-  }, []);
+    if (user) {
+      fetchCart();
+    } else {
+      // 5. CLEAR CART IF USER LOGS OUT
+      setCart({ items: [], total: 0 });
+      setLoading(false);
+    }
+  }, [user]); // <-- Dependency on 'user'
 
-  // Function to update quantity (adds, removes, or updates)
   const updateQuantity = async (product, quantity) => {
-    // This 'productData' object is crucial.
-    // It normalizes the product from ProductPage (product.id)
-    // and CartPage (product.productId) so the backend gets a consistent object.
+    // 6. DON'T DO ANYTHING IF LOGGED OUT
+    if (!user) {
+      alert('Please log in to add items to your cart.');
+      return;
+    }
+    
+    // ... (rest of the function is the same)
     const productData = {
       id: product.id || product.productId,
       title: product.title || product.name,
@@ -40,17 +59,13 @@ export const CartProvider = ({ children }) => {
     };
     
     try {
-      // This function sends the productData and the NEW target quantity
-      await updateCartQuantity(productData, quantity);
-      
-      // After the backend is updated, we fetch the fresh cart state
+      await apiUpdateQuantity(productData, quantity);
       await fetchCart(); 
     } catch (err) {
       console.error('Error updating quantity:', err);
     }
   };
 
-  // Helper to get quantity for a specific item
   const getCartItemQuantity = (productId) => {
     const item = cart.items.find((i) => i.productId === productId);
     return item ? item.quantity : 0;
@@ -71,7 +86,6 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-// 3. Create a custom hook to use the context easily
 export const useCart = () => {
   return useContext(CartContext);
 };

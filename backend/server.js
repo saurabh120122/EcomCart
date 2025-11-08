@@ -8,7 +8,7 @@ import errorHandler from './middlewares/errorHandler.js';
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import checkoutRoutes from './routes/checkoutRoutes.js';
-
+import userRoutes from './routes/userRoutes.js';
 // Load env vars
 dotenv.config();
 
@@ -25,7 +25,7 @@ app.use(cors());
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/checkout', checkoutRoutes);
-
+app.use('/api/users', userRoutes);
 // --- Global Error Handler ---
 app.use(errorHandler);
 
