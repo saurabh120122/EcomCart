@@ -1,161 +1,121 @@
-# 🛒 Vibe Commerce - Mock E-Commerce Cart
+# 🛒 Vibe Commerce - Full-Stack MERN E-Commerce Cart
 
-This project is a full-stack MERN application developed for the Vibe Commerce screening. It simulates a basic shopping cart's core functionality, including fetching products, adding/removing items from a cart, and a mock checkout process.
+This is a complete, full-stack MERN (MongoDB, Express, React, Node.js) application that simulates the core functionality of an e-commerce platform. It was built as a screening assignment for Vibe Commerce.
 
-The backend is built with a modern, scalable architecture using Express.js, featuring global error handling and standardized API responses. The frontend is a responsive React application.
+The application features a secure, professional-grade backend with JWT (JSON Web Token) authentication, a global error handler, and a persistent, user-specific shopping cart. The frontend is a responsive React application managed with a global state (Context API) for both authentication and cart data.
 
 ---
 
 ## 📸 Screenshots
 
-*(You should add your own screenshots here!)*
+| Login Page | Register Page | Product Page |
+| :---: | :---: | :---: | 
+[Image of Login Page]
+ | <img width="1919" height="968" alt="Screenshot 2025-11-08 095450" src="https://github.com/user-attachments/assets/a025708c-e655-4cf4-87f5-72bb032a4536" />
 
-| Product Page | Cart & Checkout | Receipt Modal |
+
+[Image of Register Page]
+ | <img width="1919" height="970" alt="Screenshot 2025-11-08 095434" src="https://github.com/user-attachments/assets/eab40279-3015-4588-b5f2-a46db3928309" />
+
+
+[Image of Product Page]
+ |<img width="1899" height="913" alt="image" src="https://github.com/user-attachments/assets/dba9539f-3f66-4a71-b693-4c5bc20abcdd" />
+
+
+| Cart Page | Checkout Details | Receipt Modal |
 | :---: | :---: | :---: |
-|  | [Image of Cart Page] | [Image of Receipt] |
+
+[Image of Cart Page]
+<img width="1919" height="617" alt="image" src="https://github.com/user-attachments/assets/98181046-b876-4878-9817-40e865ecaf62" /><img width="409" height="339" alt="image" src="https://github.com/user-attachments/assets/4cfbcf45-1500-47de-a9c1-aaa0c936729d" />
+<img width="1919" height="972" alt="image" src="https://github.com/user-attachments/assets/ddf1a6ae-c27c-4ac7-8389-2e577ae14d9a" />
 
 ---
 
 ## ✨ Features
 
-* **Product Listing:** Fetches mock products from the database.
-* **Add to Cart:** Adds a selected product to the user's cart. Handles duplicate items by increasing quantity.
-* **View Cart:** A detailed view of all items in the cart, sub-totals, and a final total.
-* **Remove from Cart:** Allows users to remove items from their cart.
-* **Mock Checkout:** A simple form (name/email) that, upon submission, mimics a checkout, clears the cart, and displays a receipt modal.
-* **Persistent Data:** Cart and product data are stored in a MongoDB database.
+* **Authentication:**
+    * Secure user registration (Name, Email, Password).
+    * Password hashing using **`bcryptjs`**.
+    * User login with **JWT (JSON Web Token)** generation.
+    * Persistent login state using `localStorage`.
+    * Protected backend routes for all cart and checkout operations.
+    * Global auth state (React Context) for a seamless UI.
+    * Navbar updates to show user's name and a "Logout" button.
+* **Shopping Cart (User-Specific):**
+    * Each logged-in user gets their own persistent cart stored in MongoDB.
+    * **Add to Cart** from the product page.
+    * View cart with a detailed list of items.
+    * **Update Quantity** (`+` / `-`) directly in the cart.
+    * **Remove from Cart** (by setting quantity to 0 or using the "Remove" button).
+    * Cart state is globally synced using React Context.
+* **Products & Checkout:**
+    * Products are fetched live from the external **[Fake Store API](https://fakestoreapi.com/)**.
+    * Streamlined checkout process that automatically uses the logged-in user's name and email.
+    * Mock checkout clears the user's cart and displays a success receipt.
 
 ---
 
 ## 🛠️ Tech Stack & Architecture
 
-This project uses a monorepo structure with two main directories: `/frontend` and `/backend`.
+### Frontend (React)
 
-
+* **React (v18+):** Component-based UI library.
+* **React Router:** For all client-side routing.
+* **React Context API:** Used for global state management for both `AuthContext` and `CartContext`.
+* **Axios:** For all HTTP requests to the backend.
+* **CSS:** Clean, responsive styling with Flexbox and Grid.
 
 ### Backend (Node.js / Express / MongoDB)
 
-* **Node.js (ESM):** Uses modern `import`/`export` (ES Module) syntax.
-* **Express.js:** Fast, minimalist web framework for building the REST APIs.
-* **MongoDB:** NoSQL database used to store product and cart data.
-* **Mongoose:** Elegant an object data modeling (ODM) library for MongoDB and Node.js.
-* **`dotenv`:** Manages secret keys and environment variables.
+* **Node.js (ESM):** Uses modern `import`/`export` syntax.
+* **Express.js:** Framework for building the REST APIs.
+* **MongoDB (Mongoose):** NoSQL database for storing user and cart data.
+* **JSON Web Token (JWT):** For generating and verifying user auth tokens.
+* **`bcryptjs`:** For hashing user passwords.
+* **`dotenv`:** For managing all environment variables.
 
-#### Key Architectural Features
+---
 
-This backend is not just a simple API; it's built using professional, reusable patterns:
+## Diagram: MERN Authentication Flow
 
-* **`utils/asyncHandler.js`:** A higher-order function that wraps all asynchronous controller functions. It automatically catches any errors and passes them to the global error handler, eliminating the need for `try...catch` blocks in every controller.
-* **`utils/ApiError.js`:** A custom `Error` class for creating predictable, operational errors with specific HTTP status codes.
-* **`utils/ApiResponse.js`:** A custom class for sending consistent, standardized successful JSON responses.
-* **`middlewares/errorHandler.js`:** A single, global error handling middleware that catches all errors (especially `ApiError` instances) and formats them into a clean JSON error response, so the server never crashes on an unhandled promise.
+This project uses a token-based authentication flow.
 
-### Frontend (React)
 
-* **React:** A component-based library for building the user interface.
-* **React Router:** Handles all client-side routing (`/` and `/cart`).
-* **Axios:** A promise-based HTTP client for making requests to the backend API.
-* **CSS:** Clean, responsive styling using pure CSS with Flexbox and Grid.
+
+1.  User registers or logs in.
+2.  The **Express** server verifies credentials, creates a **User** in MongoDB, and signs a **JWT**.
+3.  The JWT is sent back to the **React** app.
+4.  React stores the token (in `AuthContext` & `localStorage`).
+5.  For all future protected requests (like "get cart"), React attaches the token to the `Authorization: Bearer ...` header.
+6.  The Express server's **`protect` middleware** intercepts the request, verifies the JWT, and identifies the user before allowing the request to proceed.
+
+### Backend Error Handling
+
+This backend is built with a robust, centralized error-handling system:
+* **`asyncHandler`:** A wrapper for all controller functions to automatically catch errors and pass them to the global handler.
+* **`ApiError`:** A custom `Error` class for creating predictable errors (e.g., `new ApiError(404, 'Product not found')`).
+* **`errorHandler`:** A global middleware that catches all errors and sends a clean, standardized JSON response, ensuring the server never crashes.
 
 ---
 
 ## 🚀 Getting Started
 
-Follow these instructions to get the project up and running on your local machine.
+Follow these instructions to get the project running locally.
 
 ### Prerequisites
 
-* **Node.js** (v16.x or later)
-* **npm** (comes with Node.js)
-* **MongoDB Atlas Account** (or a local MongoDB instance). You will need a MongoDB Connection String (URI).
+* Node.js (v16.x or later)
+* npm
+* MongoDB Atlas Account (or a local MongoDB instance). You will need a **MongoDB Connection String**.
 
-### 1. Clone the Repository
+
 
 ```sh
+1. Clone the Repository
 git clone [https://github.com/your-username/vibe-commerce-cart.git](https://github.com/your-username/vibe-commerce-cart.git)
 cd vibe-commerce-cart
-Got it. A great README.md is the most important file in your repository. It's the "front page" for your project.
-
-Here is a complete, professional README.md file tailored specifically for the project we just built.
-
-Copy and paste the entire block below into a new file named README.md in the root of your vibe-commerce-cart folder (the same folder that contains frontend and backend).
-
-Markdown
-
-# 🛒 Vibe Commerce - Mock E-Commerce Cart
-
-This project is a full-stack MERN application developed for the Vibe Commerce screening. It simulates a basic shopping cart's core functionality, including fetching products, adding/removing items from a cart, and a mock checkout process.
-
-The backend is built with a modern, scalable architecture using Express.js, featuring global error handling and standardized API responses. The frontend is a responsive React application.
-
----
-
-## 📸 Screenshots
-
-*(You should add your own screenshots here!)*
-
-| Product Page | Cart & Checkout | Receipt Modal |
-| :---: | :---: | :---: |
-|  | [Image of Cart Page] | [Image of Receipt] |
-
----
-
-## ✨ Features
-
-* **Product Listing:** Fetches mock products from the database.
-* **Add to Cart:** Adds a selected product to the user's cart. Handles duplicate items by increasing quantity.
-* **View Cart:** A detailed view of all items in the cart, sub-totals, and a final total.
-* **Remove from Cart:** Allows users to remove items from their cart.
-* **Mock Checkout:** A simple form (name/email) that, upon submission, mimics a checkout, clears the cart, and displays a receipt modal.
-* **Persistent Data:** Cart and product data are stored in a MongoDB database.
-
----
-
-## 🛠️ Tech Stack & Architecture
-
-This project uses a monorepo structure with two main directories: `/frontend` and `/backend`.
-
-
-
-### Backend (Node.js / Express / MongoDB)
-
-* **Node.js (ESM):** Uses modern `import`/`export` (ES Module) syntax.
-* **Express.js:** Fast, minimalist web framework for building the REST APIs.
-* **MongoDB:** NoSQL database used to store product and cart data.
-* **Mongoose:** Elegant an object data modeling (ODM) library for MongoDB and Node.js.
-* **`dotenv`:** Manages secret keys and environment variables.
-
-#### Key Architectural Features
-
-This backend is not just a simple API; it's built using professional, reusable patterns:
-
-* **`utils/asyncHandler.js`:** A higher-order function that wraps all asynchronous controller functions. It automatically catches any errors and passes them to the global error handler, eliminating the need for `try...catch` blocks in every controller.
-* **`utils/ApiError.js`:** A custom `Error` class for creating predictable, operational errors with specific HTTP status codes.
-* **`utils/ApiResponse.js`:** A custom class for sending consistent, standardized successful JSON responses.
-* **`middlewares/errorHandler.js`:** A single, global error handling middleware that catches all errors (especially `ApiError` instances) and formats them into a clean JSON error response, so the server never crashes on an unhandled promise.
-
-### Frontend (React)
-
-* **React:** A component-based library for building the user interface.
-* **React Router:** Handles all client-side routing (`/` and `/cart`).
-* **Axios:** A promise-based HTTP client for making requests to the backend API.
-* **CSS:** Clean, responsive styling using pure CSS with Flexbox and Grid.
-
----
-
-## 🚀 Getting Started
-
-Follow these instructions to get the project up and running on your local machine.
-
-### Prerequisites
-
-* **Node.js** (v16.x or later)
-* **npm** (comes with Node.js)
-* **MongoDB Atlas Account** (or a local MongoDB instance). You will need a MongoDB Connection String (URI).
-
-### 1. Clone the Repository
-
 ```sh
+1. Clone the Repository
 git clone [https://github.com/your-username/vibe-commerce-cart.git](https://github.com/your-username/vibe-commerce-cart.git)
 cd vibe-commerce-cart
 2. Set Up the Backend
@@ -211,43 +171,14 @@ npm start
 The React app will open in your browser at http://localhost:3000.
 
 You can now use the application!
-
+```
 📦 API Endpoints
 All endpoints are prefixed with /api.
-
-Products
-GET /products
-
-Description: Get all available products.
-
-Response: 200 OK
-
-Cart
-GET /cart
-
-Description: Get all items in the cart and the total price.
-
-Response: 200 OK
-
-POST /cart
-
-Description: Add a new item to the cart or update an existing item's quantity.
-
-Body: { "productId": "...", "quantity": 1 }
-
-Response: 201 Created
-
-DELETE /cart/:id
-
-Description: Remove an item from the cart by its _id.
-
-Response: 200 OK
-
-Checkout
-POST /checkout
-
-Description: Mock checkout process. Clears the cart and returns a receipt.
-
-Body: { "cartItems": [...], "total": 123.45 }
-
-Response: 200 OK
+| Method | Endpoint        | Description                                                         |
+|---------|-----------------|---------------------------------------------------------------------|
+| POST    | /register       | Register a new user (requires name, email, password).               |
+| POST    | /login          | Log in a user (requires email, password). Returns JWT.              |
+| GET     | /products       | Get all products from the Fake Store API.                           |
+| GET     | /cart           | Get the logged-in user's cart items and total.                      |
+| POST    | /cart           | Add, update, or remove an item. (Send quantity: 0 to remove).       |
+| POST    | /checkout       | Mock checkout. Clears the user's cart and returns a receipt.        |
